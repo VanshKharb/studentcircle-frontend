@@ -23,22 +23,22 @@ document.addEventListener('DOMContentLoaded', function() {
             availability: document.getElementById('availability').value,
             price: parseInt(document.getElementById('price').value) || 0,
             location: document.getElementById('location').value.trim(),
-            image: null // Image upload will be handled by backend later
+            image: null // Will be handled by backend
         };
 
         // Basic validation
         if (!formData.itemName || !formData.category || !formData.description || 
             !formData.availability || !formData.location) {
-            alert('Please fill in all required fields');
+            showFormMessage('Please fill in all required fields', 'error');
             return;
         }
 
         try {
             // Add resource via API
-            const newResource = await ResourceAPI.addResource(formData);
+            await ResourceAPI.addResource(formData);
             
             // Show success message
-            alert('Item added successfully!');
+            showFormMessage('Item added successfully! 🎉', 'success');
             
             // Reset form
             addItemForm.reset();
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             console.error('Error adding resource:', error);
-            alert('Failed to add item. Please try again.');
+            showFormMessage('Failed to add item. Please try again.', 'error');
         }
     });
 
@@ -99,47 +99,51 @@ document.addEventListener('DOMContentLoaded', function() {
         itemsGrid.innerHTML = resources.map(item => createItemCard(item)).join('');
     }
 
+    // Get category icon
+    function getCategoryIcon(category) {
+        const icons = {
+            'Cycles': 'fa-bicycle',
+            'Books': 'fa-book',
+            'Electronics': 'fa-laptop',
+            'Kitchen': 'fa-utensils',
+            'Furniture': 'fa-couch',
+            'Sports': 'fa-dumbbell',
+            'Other': 'fa-box'
+        };
+        return icons[category] || 'fa-box';
+    }
+
     // Create item card HTML
     function createItemCard(item) {
-    const priceDisplay = item.price === 0 ? 'Free' : `₹${item.price}`;
-    const priceClass = item.price === 0 ? 'free' : '';
-    
-    const statusClass = item.availability.toLowerCase().replace(' ', '-');
-    
-    const categoryEmojis = {
-        'Cycles': '🚴',
-        'Books': '📚',
-        'Electronics': '💻',
-        'Kitchen': '🍳',
-        'Furniture': '🪑',
-        'Sports': '⚽',
-        'Other': '📦'
-    };
-    
-    const emoji = categoryEmojis[item.category] || '📦';
+        const priceDisplay = item.price === 0 ? 'Free' : `₹${item.price}`;
+        const priceClass = item.price === 0 ? 'free' : '';
+        const statusClass = item.availability.toLowerCase().replace(' ', '-');
 
-    return `
-        <div class="item-card fade-in" data-id="${item.id}">
-            <div class="item-image">
-                ${item.image ? `<img src="${item.image}" alt="${item.itemName}">` : emoji}
-            </div>
-            <div class="item-content">
-                <div class="item-header">
-                    <h3 class="item-name">${item.itemName}</h3>
-                    <span class="item-price ${priceClass}">${priceDisplay}</span>
+        return `
+            <div class="item-card fade-in" data-id="${item.id}">
+                <div class="item-image">
+                    ${item.image 
+                        ? `<img src="${item.image}" alt="${item.itemName}" onerror="this.parentElement.innerHTML='<i class=\\'fas ${getCategoryIcon(item.category)}\\'></i>'">` 
+                        : `<i class="fas ${getCategoryIcon(item.category)}"></i>`
+                    }
                 </div>
-                <span class="item-category">${item.category}</span>
-                <p class="item-description">${item.description}</p>
-                <div class="item-footer">
-                    <span class="item-location">
-                        📍 ${item.location}
-                    </span>
-                    <span class="item-status ${statusClass}">${item.availability}</span>
+                <div class="item-content">
+                    <div class="item-header">
+                        <h3 class="item-name">${item.itemName}</h3>
+                        <span class="item-price ${priceClass}">${priceDisplay}</span>
+                    </div>
+                    <span class="item-category">${item.category}</span>
+                    <p class="item-description">${item.description}</p>
+                    <div class="item-footer">
+                        <span class="item-location">
+                            <i class="fas fa-map-marker-alt"></i> ${item.location}
+                        </span>
+                        <span class="item-status ${statusClass}">${item.availability}</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    `;
-}
+        `;
+    }
 
     // Show empty state
     function showEmptyState() {
@@ -151,6 +155,26 @@ document.addEventListener('DOMContentLoaded', function() {
     function hideEmptyState() {
         itemsGrid.style.display = 'grid';
         emptyState.style.display = 'none';
+    }
+
+    // Show form message
+    function showFormMessage(message, type = 'success') {
+        const existingMessage = document.querySelector('.form-message');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `form-message ${type}-message`;
+        messageDiv.innerHTML = `${type === 'success' ? '✅' : '❌'} ${message}`;
+        
+        const form = document.getElementById('addItemForm');
+        form.parentNode.insertBefore(messageDiv, form);
+        
+        setTimeout(() => {
+            messageDiv.style.opacity = '0';
+            setTimeout(() => messageDiv.remove(), 300);
+        }, 5000);
     }
 
     // Form validation - real-time feedback
@@ -166,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         input.addEventListener('input', function() {
             if (this.value.trim()) {
-                this.style.borderColor = '#e0e0e0';
+                this.style.borderColor = '#e2e8f0';
             }
         });
     });

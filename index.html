@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Add these icon libraries -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StudentCircle - Share More. Waste Less.</title>
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- CSS Links -->
     <link rel="stylesheet" href="css/style.css">
@@ -18,35 +21,108 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                🌱 StudentCircle
+                <div class="logo-icon">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <span>StudentCircle</span>
             </a>
             <button class="menu-toggle" aria-label="Toggle menu">
-                ☰
+                <i class="fas fa-bars"></i>
             </button>
             <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="resources.html">Resources</a></li>
-                <li><a href="rides.html">Rides</a></li>
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="resources.html" class="nav-link">Resources</a></li>
+                <li><a href="rides.html" class="nav-link">Rides</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Share More. Waste Less.</h1>
-            <p class="hero-subtitle">
-                Building a sustainable campus community through resource and ride sharing.
-                Connect with fellow students, reduce waste, and save money together.
-            </p>
-            <div class="hero-buttons">
-                <a href="resources.html" class="btn btn-primary">Share Resources</a>
-                <a href="rides.html" class="btn btn-secondary">Find Rides</a>
-            </div>
+        <div class="hero-background">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
         </div>
-        <div class="hero-image">
-            <div class="hero-illustration">
-                🚴‍♂️ 📚 🚗 ♻️
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-leaf"></i>
+                    <span>Sustainable Campus Living</span>
+                </div>
+                <h1 class="hero-title">
+                    Share More.<br/>
+                    <span class="gradient-text">Waste Less.</span>
+                </h1>
+                <p class="hero-description">
+                    Join thousands of students building a greener campus. Share resources, 
+                    split rides, save money, and make a real environmental impact.
+                </p>
+                <div class="hero-buttons">
+                    <a href="resources.html" class="btn btn-primary">
+                        <i class="fas fa-box-open"></i>
+                        <span>Browse Resources</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="rides.html" class="btn btn-secondary">
+                        <i class="fas fa-bicycle"></i>
+                        <span>Find Rides</span>
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Items Shared</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1K+</div>
+                        <div class="stat-label">Active Students</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">₹50K+</div>
+                        <div class="stat-label">Money Saved</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="visual-card card-1">
+                    <div class="card-icon">
+                        <i class="fas fa-bicycle"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4>Cycles</h4>
+                        <p>120+ available</p>
+                    </div>
+                </div>
+                <div class="visual-card card-2">
+                    <div class="card-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4>Books</h4>
+                        <p>250+ shared</p>
+                    </div>
+                </div>
+                <div class="visual-card card-3">
+                    <div class="card-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4>Electronics</h4>
+                        <p>80+ items</p>
+                    </div>
+                </div>
+                <div class="visual-card card-4">
+                    <div class="card-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="card-content">
+                        <h4>Go Green</h4>
+                        <p>Join now</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -54,44 +130,71 @@
     <!-- Features Section -->
     <section class="features">
         <div class="container">
-            <h2 class="section-title">How StudentCircle Works</h2>
-            <p class="section-subtitle">Three simple steps to start sharing</p>
+            <div class="section-header">
+                <span class="section-tag">Why Choose Us</span>
+                <h2 class="section-title">Everything you need in one place</h2>
+                <p class="section-subtitle">Simple, sustainable, and student-friendly</p>
+            </div>
             
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">📦</div>
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                    </div>
                     <h3>Share Resources</h3>
-                    <p>List unused items like cycles, books, kettles, and more. Help others while decluttering your space.</p>
+                    <p>List unused items and connect with students who need them. From textbooks to bicycles.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🚗</div>
-                    <h3>Share Rides</h3>
-                    <p>Traveling to the city or railway station? Share your ride and split costs with fellow students.</p>
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">
+                            <i class="fas fa-route"></i>
+                        </div>
+                    </div>
+                    <h3>Split Rides</h3>
+                    <p>Going somewhere? Share your bike ride and split costs with classmates heading the same way.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">💰</div>
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                    </div>
                     <h3>Save Money</h3>
-                    <p>Reduce expenses by sharing resources and rides. Good for your wallet and the environment.</p>
+                    <p>Cut expenses significantly by sharing instead of buying new. Student budget friendly.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Reduce Waste</h3>
-                    <p>Promote sustainability by reusing items and reducing carbon footprint through shared transportation.</p>
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                    </div>
+                    <h3>Go Green</h3>
+                    <p>Reduce waste and carbon footprint. Every share makes a real environmental impact.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">🤝</div>
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
                     <h3>Build Community</h3>
-                    <p>Connect with students across campus. Create a supportive and collaborative environment.</p>
+                    <p>Connect with like-minded students. Create lasting friendships through sharing.</p>
                 </div>
                 
                 <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Quick & Easy</h3>
-                    <p>Simple interface to post items or rides in seconds. Find what you need instantly.</p>
+                    <div class="feature-icon-wrapper">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                    </div>
+                    <h3>Lightning Fast</h3>
+                    <p>Post or find items in seconds. Simple interface, zero complexity.</p>
                 </div>
             </div>
         </div>
@@ -100,36 +203,74 @@
     <!-- Impact Section -->
     <section class="impact">
         <div class="container">
-            <h2 class="section-title">Our Impact</h2>
-            <div class="impact-stats">
-                <div class="stat-card">
-                    <div class="stat-number">500+</div>
-                    <div class="stat-label">Items Shared</div>
+            <div class="impact-content">
+                <div class="impact-text">
+                    <span class="section-tag light">Our Impact</span>
+                    <h2 class="impact-title">Making a real difference together</h2>
+                    <p class="impact-description">
+                        Every item shared and every ride split contributes to a more sustainable future. 
+                        Join our growing community of eco-conscious students.
+                    </p>
+                    <div class="impact-features">
+                        <div class="impact-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Reduce campus waste by 40%</span>
+                        </div>
+                        <div class="impact-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Save students ₹50,000+ monthly</span>
+                        </div>
+                        <div class="impact-feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Cut carbon emissions significantly</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">300+</div>
-                    <div class="stat-label">Rides Shared</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">1000+</div>
-                    <div class="stat-label">Students Connected</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">50%</div>
-                    <div class="stat-label">Cost Savings</div>
+                
+                <div class="impact-stats-grid">
+                    <div class="impact-stat-card">
+                        <div class="impact-stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="impact-stat-number">500+</div>
+                        <div class="impact-stat-label">Items Shared</div>
+                    </div>
+                    <div class="impact-stat-card">
+                        <div class="impact-stat-icon">
+                            <i class="fas fa-bicycle"></i>
+                        </div>
+                        <div class="impact-stat-number">300+</div>
+                        <div class="impact-stat-label">Rides Offered</div>
+                    </div>
+                    <div class="impact-stat-card">
+                        <div class="impact-stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="impact-stat-number">1,000+</div>
+                        <div class="impact-stat-label">Students</div>
+                    </div>
+                    <div class="impact-stat-card">
+                        <div class="impact-stat-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="impact-stat-number">10 Tons</div>
+                        <div class="impact-stat-label">CO₂ Saved</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Call to Action -->
+    <!-- CTA Section -->
     <section class="cta">
-        <div class="container">
-            <h2>Ready to Start Sharing?</h2>
-            <p>Join hundreds of students making campus life more sustainable and affordable.</p>
-            <div class="cta-buttons">
-                <a href="resources.html" class="btn btn-primary">Browse Resources</a>
-                <a href="rides.html" class="btn btn-secondary">Find a Ride</a>
+        <div class="cta-container">
+            <div class="cta-content">
+                <h2>Ready to make a difference?</h2>
+                <p>Join StudentCircle today and be part of the sustainable campus revolution</p>
+                <a href="resources.html" class="btn btn-primary btn-large">
+                    <span>Get Started Now</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -137,8 +278,18 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 StudentCircle. Built for a sustainable campus.</p>
-            <p>Share More. Waste Less. 🌱</p>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <span>StudentCircle</span>
+                </div>
+                <p class="footer-tagline">Building sustainable campus communities, one share at a time.</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 StudentCircle. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 

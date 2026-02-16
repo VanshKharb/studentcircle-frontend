@@ -28,55 +28,40 @@ document.addEventListener('DOMContentLoaded', function() {
             seats: parseInt(document.getElementById('seats').value),
             costPerPerson: parseInt(document.getElementById('costPerPerson').value),
             driver: document.getElementById('driver').value.trim(),
-            vehicle: document.getElementById('vehicle').value,
-            notes: document.getElementById('notes').value.trim() || ''
+            vehicle: document.getElementById('vehicle').value
         };
 
-        // Basic validation
+        // Validation
         if (!formData.from || !formData.to || !formData.date || !formData.time || 
-            !formData.seats || !formData.costPerPerson || !formData.driver || !formData.vehicle) {
-            alert('Please fill in all required fields');
+            !formData.seats || formData.costPerPerson === undefined || !formData.driver || !formData.vehicle) {
+            showFormMessage('Please fill in all required fields', 'error');
             return;
         }
 
-        // Validate date is not in the past
+        // Validate date
         const selectedDate = new Date(formData.date);
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
         
         if (selectedDate < currentDate) {
-            alert('Please select a date that is today or in the future');
+            showFormMessage('Please select today or a future date', 'error');
             return;
         }
 
-        // Validate seats (bikes/cycles typically have 1 passenger seat)
+        // Validate seats
         if (formData.seats < 1 || formData.seats > 2) {
-            alert('Seats must be between 1 and 2 (most bikes/cycles have max 1-2 passenger seats)');
-            return;
-        }
-
-        // Validate cost
-        if (formData.costPerPerson < 0) {
-            alert('Cost cannot be negative');
+            showFormMessage('Seats must be between 1 and 2', 'error');
             return;
         }
 
         try {
-            // Add ride via API
-            const newRide = await RideAPI.addRide(formData);
-            
-            // Show success message
-            alert('Ride posted successfully!');
-            
-            // Reset form
+            await RideAPI.addRide(formData);
+            showFormMessage('Ride posted successfully! 🎉', 'success');
             postRideForm.reset();
-            
-            // Reload rides
             loadRides();
-            
         } catch (error) {
             console.error('Error posting ride:', error);
-            alert('Failed to post ride. Please try again.');
+            showFormMessage('Failed to post ride. Please try again.', 'error');
         }
     });
 
@@ -85,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
         filterRides();
     });
 
-    // Load and display rides
+    // Load rides
     async function loadRides() {
         try {
             const rides = await RideAPI.getAllRides();
@@ -96,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Filter rides based on search
+    // Filter rides
     async function filterRides() {
         const searchQuery = searchBar.value.trim();
         
@@ -109,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Display rides in grid
+    // Display rides
     function displayRides(rides) {
         if (rides.length === 0) {
             showEmptyState();
@@ -118,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         hideEmptyState();
         
-        // Sort rides by date (earliest first)
+        // Sort by date
         const sortedRides = rides.sort((a, b) => {
             const dateA = new Date(a.date + ' ' + a.time);
             const dateB = new Date(b.date + ' ' + b.time);
@@ -127,48 +112,61 @@ document.addEventListener('DOMContentLoaded', function() {
         
         ridesGrid.innerHTML = sortedRides.map(ride => createRideCard(ride)).join('');
         
-        // Add event listeners to join buttons
-        addJoinButtonListeners();
+        // Add join button listeners
+        document.querySelectorAll('.join-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const rideId = this.getAttribute('data-ride-id');
+                handleJoinRide(rideId);
+            });
+        });
     }
 
-    // Create ride card HTML
-    function createRideCard(ride) {
-        // Format date
-        const rideDate = new Date(ride.date);
-        const formattedDate = rideDate.toLocaleDateString('en-US', { 
+    // Get vehicle icon
+    function getVehicleIcon(vehicle) {
+        const icons = {
+            'Bicycle': 'fa-bicycle',
+            'Electric Cycle': 'fa-bicycle',
+            'Motorcycle': 'fa-motorcycle',
+            'Scooter': 'fa-motorcycle'
+        };
+        return icons[vehicle] || 'fa-bicycle';
+    }
+
+    // Format time
+    function formatTime(time) {
+        const [hours, minutes] = time.split(':');
+        const hour = parseInt(hours);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        const hour12 = hour % 12 || 12;
+        return `${hour12}:${minutes} ${ampm}`;
+    }
+
+    // Get initials
+    function getInitials(name) {
+        const names = name.trim().split(' ');
+        if (names.length >= 2) {
+            return (names[0][0] + names[names.length - 1][0]).toUpperCase();
+        }
+        return name.substring(0, 2).toUpperCase();
+    }
+
+    // Format date
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return date.toLocaleDateString('en-US', { 
             month: 'short', 
             day: 'numeric', 
             year: 'numeric' 
         });
-        
-        // Format time
+    }
+
+    // Create ride card
+    function createRideCard(ride) {
+        const formattedDate = formatDate(ride.date);
         const formattedTime = formatTime(ride.time);
-        
-        // Calculate total cost
         const totalCost = ride.costPerPerson * ride.seats;
-        
-        // Determine seats badge class
-        let seatsBadgeClass = '';
-        if (ride.seats <= 1) {
-            seatsBadgeClass = 'limited';
-        } else if (ride.seats === 0) {
-            seatsBadgeClass = 'full';
-        }
-        
-        // Get driver initials
         const initials = getInitials(ride.driver);
-        
-        // Vehicle emoji mapping
-        // Vehicle emoji mapping
-        const vehicleEmojis = {
-            'Bicycle': '🚴',
-            'Electric Cycle': '🚴‍♂️',
-            'Motorcycle': '🏍️',
-            'Scooter': '🛵',
-            'Other': '🚲'
-        };
-        
-        const vehicleEmoji = vehicleEmojis[ride.vehicle] || '🚗';
+        const vehicleIcon = getVehicleIcon(ride.vehicle);
 
         return `
             <div class="ride-card fade-in" data-id="${ride.id}">
@@ -181,10 +179,10 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <div class="ride-datetime">
                             <span class="datetime-item">
-                                📅 ${formattedDate}
+                                <i class="far fa-calendar"></i> ${formattedDate}
                             </span>
                             <span class="datetime-item">
-                                🕐 ${formattedTime}
+                                <i class="far fa-clock"></i> ${formattedTime}
                             </span>
                         </div>
                     </div>
@@ -197,21 +195,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 <div class="ride-details">
                     <div class="detail-item">
-                        <span class="detail-icon">💺</span>
+                        <div class="detail-icon">
+                            <i class="fas fa-chair"></i>
+                        </div>
                         <div class="detail-content">
                             <span class="detail-label">Seats</span>
                             <span class="detail-value">${ride.seats} available</span>
                         </div>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-icon">${vehicleEmoji}</span>
+                        <div class="detail-icon">
+                            <i class="fas ${vehicleIcon}"></i>
+                        </div>
                         <div class="detail-content">
                             <span class="detail-label">Vehicle</span>
                             <span class="detail-value">${ride.vehicle}</span>
                         </div>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-icon">💰</span>
+                        <div class="detail-icon">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
                         <div class="detail-content">
                             <span class="detail-label">Total Split</span>
                             <span class="detail-value">₹${totalCost}</span>
@@ -224,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="driver-avatar">${initials}</div>
                         <div class="driver-details">
                             <span class="driver-name">${ride.driver}</span>
-                            <span class="vehicle-type">${ride.vehicle} driver</span>
+                            <span class="vehicle-type">${ride.vehicle}</span>
                         </div>
                     </div>
                     <button class="join-btn" data-ride-id="${ride.id}" ${ride.seats === 0 ? 'disabled' : ''}>
@@ -235,67 +239,49 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
     }
 
-    // Add event listeners to join buttons
-    function addJoinButtonListeners() {
-        const joinButtons = document.querySelectorAll('.join-btn');
-        joinButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const rideId = this.getAttribute('data-ride-id');
-                handleJoinRide(rideId);
-            });
-        });
-    }
-
-    // Handle join ride action
+    // Handle join ride
     function handleJoinRide(rideId) {
-        // In a real application, this would:
-        // 1. Send request to backend to join the ride
-        // 2. Update seat count
-        // 3. Send notification to driver
-        // 4. Add to user's "My Rides" list
-        
         const confirmJoin = confirm('Do you want to join this ride? The driver will be notified.');
         
         if (confirmJoin) {
             alert('Ride joined successfully! The driver will contact you soon.');
-            // Here you would make an API call to join the ride
-            // Example: RideAPI.joinRide(rideId, userId)
+            // In real app: RideAPI.joinRide(rideId, userId)
         }
     }
 
-    // Format time from 24h to 12h format
-    function formatTime(time) {
-        const [hours, minutes] = time.split(':');
-        const hour = parseInt(hours);
-        const ampm = hour >= 12 ? 'PM' : 'AM';
-        const hour12 = hour % 12 || 12;
-        return `${hour12}:${minutes} ${ampm}`;
-    }
-
-    // Get initials from name
-    function getInitials(name) {
-        const names = name.trim().split(' ');
-        if (names.length >= 2) {
-            return (names[0][0] + names[names.length - 1][0]).toUpperCase();
-        }
-        return name.substring(0, 2).toUpperCase();
-    }
-
-    // Show empty state
+    // Show/hide empty state
     function showEmptyState() {
         ridesGrid.style.display = 'none';
         emptyState.style.display = 'block';
     }
 
-    // Hide empty state
     function hideEmptyState() {
         ridesGrid.style.display = 'flex';
         emptyState.style.display = 'none';
     }
 
-    // Form validation - real-time feedback
-    const requiredInputs = document.querySelectorAll('input[required], select[required], textarea[required]');
+    // Show form message
+    function showFormMessage(message, type = 'success') {
+        const existingMessage = document.querySelector('.form-message');
+        if (existingMessage) {
+            existingMessage.remove();
+        }
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `form-message ${type}-message`;
+        messageDiv.innerHTML = `${type === 'success' ? '✅' : '❌'} ${message}`;
+        
+        const form = document.getElementById('postRideForm');
+        form.parentNode.insertBefore(messageDiv, form);
+        
+        setTimeout(() => {
+            messageDiv.style.opacity = '0';
+            setTimeout(() => messageDiv.remove(), 300);
+        }, 5000);
+    }
+
+    // Form validation
+    const requiredInputs = document.querySelectorAll('input[required], select[required]');
     requiredInputs.forEach(input => {
         input.addEventListener('blur', function() {
             if (!this.value.trim()) {
@@ -307,19 +293,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         input.addEventListener('input', function() {
             if (this.value.trim()) {
-                this.style.borderColor = '#e0e0e0';
+                this.style.borderColor = '#e2e8f0';
             }
         });
     });
 
-    // Validate number inputs on input
+    // Validate seats
     const seatsInput = document.getElementById('seats');
     const costInput = document.getElementById('costPerPerson');
 
-   seatsInput.addEventListener('input', function() {
-    if (this.value < 1) this.value = 1;
-    if (this.value > 2) this.value = 2;  // Changed from 8 to 2
-});
+    seatsInput.addEventListener('input', function() {
+        if (this.value < 1) this.value = 1;
+        if (this.value > 2) this.value = 2;
+    });
 
     costInput.addEventListener('input', function() {
         if (this.value < 0) this.value = 0;

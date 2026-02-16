@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Share Resources - StudentCircle</title>
     
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- CSS Links -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
@@ -15,10 +18,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                🌱 StudentCircle
+                <i class="fas fa-seedling"></i> StudentCircle
             </a>
             <button class="menu-toggle" aria-label="Toggle menu">
-                ☰
+                <i class="fas fa-bars"></i>
             </button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
@@ -31,154 +34,150 @@
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1>Resource Sharing</h1>
-            <p>Share unused items with your campus community</p>
+            <h1><i class="fas fa-box-open"></i> Resource Sharing</h1>
+            <p>Lend, borrow, and share items within your campus community</p>
         </div>
     </section>
 
     <!-- Main Content -->
-    <div class="container">
-        <div class="resources-layout">
-            
-            <!-- Add Item Form Section -->
-            <section class="add-item-section">
-                <h2>Share an Item</h2>
-                <form id="addItemForm" class="item-form">
-                    
-                    <div class="form-group">
-                        <label for="itemName">Item Name *</label>
-                        <input 
-                            type="text" 
-                            id="itemName" 
-                            name="itemName" 
-                            placeholder="e.g., Mountain Bike, Kettle, Chemistry Textbook"
-                            required
-                        >
-                    </div>
+    <div class="page-container">
+        <div class="container">
+            <div class="resources-layout">
+                
+                <!-- Sidebar: Add Item Form -->
+                <aside class="sidebar">
+                    <div class="form-card">
+                        <h2>List an Item</h2>
+                        <form id="addItemForm">
+                            
+                            <div class="form-group">
+                                <label for="itemName">Item Name *</label>
+                                <input 
+                                    type="text" 
+                                    id="itemName" 
+                                    placeholder="e.g., Mountain Bike"
+                                    required
+                                >
+                            </div>
 
-                    <div class="form-group">
-                        <label for="category">Category *</label>
-                        <select id="category" name="category" required>
-                            <option value="">Select a category</option>
-                            <option value="Cycles">Cycles</option>
-                            <option value="Books">Books</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Kitchen">Kitchen Appliances</option>
-                            <option value="Furniture">Furniture</option>
-                            <option value="Sports">Sports Equipment</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
+                            <div class="form-group">
+                                <label for="category">Category *</label>
+                                <select id="category" required>
+                                    <option value="">Select category</option>
+                                    <option value="Cycles">Cycles</option>
+                                    <option value="Books">Books</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Kitchen">Kitchen</option>
+                                    <option value="Furniture">Furniture</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
 
-                    <div class="form-group">
-                        <label for="description">Description *</label>
-                        <textarea 
-                            id="description" 
-                            name="description" 
-                            placeholder="Describe the condition, age, and any important details..."
-                            required
-                        ></textarea>
-                    </div>
+                            <div class="form-group">
+                                <label for="description">Description *</label>
+                                <textarea 
+                                    id="description" 
+                                    placeholder="Describe condition, age, etc..."
+                                    rows="4"
+                                    required
+                                ></textarea>
+                            </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="availability">Availability *</label>
-                            <select id="availability" name="availability" required>
-                                <option value="">Select availability</option>
-                                <option value="Available">Available Now</option>
-                                <option value="Reserved">Reserved</option>
-                                <option value="Unavailable">Not Available</option>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="availability">Status *</label>
+                                    <select id="availability" required>
+                                        <option value="">Select</option>
+                                        <option value="Available">Available</option>
+                                        <option value="Reserved">Reserved</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="price">Price (₹)</label>
+                                    <input 
+                                        type="number" 
+                                        id="price" 
+                                        placeholder="0 for free"
+                                        min="0"
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="location">Location *</label>
+                                <input 
+                                    type="text" 
+                                    id="location" 
+                                    placeholder="e.g., Hostel A, Room 205"
+                                    required
+                                >
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-plus"></i> List Item
+                            </button>
+                        </form>
+                    </div>
+                </aside>
+
+                <!-- Main: Items Listing -->
+                <main class="main-content">
+                    <div class="listing-header">
+                        <h2>Available Items</h2>
+                        
+                        <div class="filters">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input 
+                                    type="text" 
+                                    id="searchBar" 
+                                    placeholder="Search items..."
+                                >
+                            </div>
+                            
+                            <select id="categoryFilter" class="filter-select">
+                                <option value="all">All Categories</option>
+                                <option value="Cycles">Cycles</option>
+                                <option value="Books">Books</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Kitchen">Kitchen</option>
+                                <option value="Furniture">Furniture</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Other">Other</option>
                             </select>
                         </div>
-
-                        <div class="form-group">
-                            <label for="price">Price (₹)</label>
-                            <input 
-                                type="number" 
-                                id="price" 
-                                name="price" 
-                                placeholder="0 for free"
-                                min="0"
-                            >
-                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="location">Location *</label>
-                        <input 
-                            type="text" 
-                            id="location" 
-                            name="location" 
-                            placeholder="e.g., Hostel A, Room 302"
-                            required
-                        >
+                    <div id="itemsGrid" class="items-grid">
+                        <!-- Items will be dynamically inserted here -->
                     </div>
 
-                    <div class="form-group">
-                        <label for="image">Item Image</label>
-                        <input 
-                            type="file" 
-                            id="image" 
-                            name="image" 
-                            accept="image/*"
-                        >
-                        <small>Optional: Upload a photo of your item</small>
+                    <div id="emptyState" class="empty-state" style="display: none;">
+                        <i class="fas fa-inbox"></i>
+                        <h3>No items found</h3>
+                        <p>Try adjusting your search or filter</p>
                     </div>
+                </main>
 
-                    <button type="submit" class="btn btn-primary btn-full">
-                        Share Item
-                    </button>
-                </form>
-            </section>
-
-            <!-- Items Listing Section -->
-            <section class="items-listing-section">
-                <div class="listing-header">
-                    <h2>Available Resources</h2>
-                    
-                    <!-- Search and Filter -->
-                    <div class="search-filter-bar">
-                        <input 
-                            type="text" 
-                            id="searchBar" 
-                            class="search-input" 
-                            placeholder="🔍 Search items..."
-                        >
-                        
-                        <select id="categoryFilter" class="filter-select">
-                            <option value="all">All Categories</option>
-                            <option value="Cycles">Cycles</option>
-                            <option value="Books">Books</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Kitchen">Kitchen Appliances</option>
-                            <option value="Furniture">Furniture</option>
-                            <option value="Sports">Sports Equipment</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Items Grid -->
-                <div id="itemsGrid" class="items-grid">
-                    <!-- Items will be dynamically inserted here by JavaScript -->
-                </div>
-
-                <!-- Empty State -->
-                <div id="emptyState" class="empty-state" style="display: none;">
-                    <div class="empty-icon">📦</div>
-                    <p>No items found</p>
-                    <small>Try adjusting your search or filter</small>
-                </div>
-            </section>
-
+            </div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 StudentCircle. Built for a sustainable campus.</p>
-            <p>Share More. Waste Less. 🌱</p>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-seedling"></i> StudentCircle
+                </div>
+                <p>Building sustainable campus communities</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 StudentCircle. Share More. Waste Less.</p>
+            </div>
         </div>
     </footer>
 

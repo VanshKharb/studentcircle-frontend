@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Share Rides - StudentCircle</title>
     
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <!-- CSS Links -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
@@ -15,10 +18,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                🌱 StudentCircle
+                <i class="fas fa-seedling"></i> StudentCircle
             </a>
             <button class="menu-toggle" aria-label="Toggle menu">
-                ☰
+                <i class="fas fa-bars"></i>
             </button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
@@ -31,166 +34,149 @@
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1>Ride Sharing</h1>
-            <p>Share bike/cycle rides, split costs, reduce carbon footprint</p>
+            <h1><i class="fas fa-bicycle"></i> Ride Sharing</h1>
+            <p>Share bike rides, split costs, reduce your carbon footprint</p>
         </div>
     </section>
 
     <!-- Main Content -->
-    <div class="container">
-        <div class="rides-layout">
-            
-            <!-- Post Ride Form Section -->
-            <section class="post-ride-section">
-                <h2>Post a Ride</h2>
-                <form id="postRideForm" class="ride-form">
-                    
-                    <div class="form-group">
-                        <label for="from">From *</label>
-                        <input 
-                            type="text" 
-                            id="from" 
-                            name="from" 
-                            placeholder="e.g., Campus Main Gate, Hostel Complex"
-                            required
-                        >
-                    </div>
+    <div class="page-container">
+        <div class="container">
+            <div class="rides-layout">
+                
+                <!-- Sidebar: Post Ride Form -->
+                <aside class="sidebar">
+                    <div class="form-card">
+                        <h2>Offer a Ride</h2>
+                        <form id="postRideForm">
+                            
+                            <div class="form-group">
+                                <label for="from">From *</label>
+                                <input 
+                                    type="text" 
+                                    id="from" 
+                                    placeholder="e.g., Main Gate"
+                                    required
+                                >
+                            </div>
 
-                    <div class="form-group">
-                        <label for="to">To *</label>
-                        <input 
-                            type="text" 
-                            id="to" 
-                            name="to" 
-                            placeholder="e.g., Railway Station, City Mall, Airport"
-                            required
-                        >
-                    </div>
+                            <div class="form-group">
+                                <label for="to">To *</label>
+                                <input 
+                                    type="text" 
+                                    id="to" 
+                                    placeholder="e.g., Railway Station"
+                                    required
+                                >
+                            </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="date">Date *</label>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="date">Date *</label>
+                                    <input type="date" id="date" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="time">Time *</label>
+                                    <input type="time" id="time" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="seats">Seats *</label>
+                                    <input 
+                                        type="number" 
+                                        id="seats" 
+                                        placeholder="1"
+                                        min="1"
+                                        max="2"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="costPerPerson">Cost (₹) *</label>
+                                    <input 
+                                        type="number" 
+                                        id="costPerPerson" 
+                                        placeholder="50"
+                                        min="0"
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="driver">Your Name *</label>
+                                <input 
+                                    type="text" 
+                                    id="driver" 
+                                    placeholder="e.g., Rahul"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="vehicle">Vehicle *</label>
+                                <select id="vehicle" required>
+                                    <option value="">Select type</option>
+                                    <option value="Bicycle">Bicycle</option>
+                                    <option value="Electric Cycle">E-Bike</option>
+                                    <option value="Motorcycle">Motorcycle</option>
+                                    <option value="Scooter">Scooter</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="fas fa-plus"></i> Post Ride
+                            </button>
+                        </form>
+                    </div>
+                </aside>
+
+                <!-- Main: Rides Listing -->
+                <main class="main-content">
+                    <div class="listing-header">
+                        <h2>Available Rides</h2>
+                        
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
                             <input 
-                                type="date" 
-                                id="date" 
-                                name="date" 
-                                required
+                                type="text" 
+                                id="searchBar" 
+                                placeholder="Search by location or driver..."
                             >
                         </div>
-
-                        <div class="form-group">
-                            <label for="time">Time *</label>
-                            <input 
-                                type="time" 
-                                id="time" 
-                                name="time" 
-                                required
-                            >
-                        </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="seats">Available Seats *</label>
-                            <input 
-                                type="number" 
-                                id="seats" 
-                                name="seats" 
-                                placeholder="e.g., 1"
-                                min="1"
-                                max="2"
-                                required
-                            >
-                        </div>
-
-                        <div class="form-group">
-                            <label for="costPerPerson">Cost per Person (₹) *</label>
-                            <input 
-                                type="number" 
-                                id="costPerPerson" 
-                                name="costPerPerson" 
-                                placeholder="e.g., 50"
-                                min="0"
-                                required
-                            >
-                        </div>
+                    <div id="ridesGrid" class="rides-list">
+                        <!-- Rides will be dynamically inserted here -->
                     </div>
 
-                    <div class="form-group">
-                        <label for="driver">Your Name *</label>
-                        <input 
-                            type="text" 
-                            id="driver" 
-                            name="driver" 
-                            placeholder="e.g., John Doe"
-                            required
-                        >
+                    <div id="emptyState" class="empty-state" style="display: none;">
+                        <i class="fas fa-bicycle"></i>
+                        <h3>No rides available</h3>
+                        <p>Be the first to offer a ride!</p>
                     </div>
+                </main>
 
-                    <div class="form-group">
-                        <label for="vehicle">Bike/Cycle Type *</label>
-                        <select id="vehicle" name="vehicle" required>
-                            <option value="">Select bike/cycle type</option>
-                            <option value="Bicycle">Bicycle</option>
-                            <option value="Electric Cycle">Electric Cycle</option>
-                            <option value="Motorcycle">Motorcycle</option>
-                            <option value="Scooter">Scooter</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="notes">Additional Notes</label>
-                        <textarea 
-                            id="notes" 
-                            name="notes" 
-                            placeholder="Any specific instructions or requirements..."
-                            rows="3"
-                        ></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary btn-full">
-                        Post Ride
-                    </button>
-                </form>
-            </section>
-
-            <!-- Rides Listing Section -->
-            <section class="rides-listing-section">
-                <div class="listing-header">
-                    <h2>Available Rides</h2>
-                    
-                    <!-- Search Bar -->
-                    <div class="search-bar">
-                        <input 
-                            type="text" 
-                            id="searchBar" 
-                            class="search-input" 
-                            placeholder="🔍 Search by location or driver..."
-                        >
-                    </div>
-                </div>
-
-                <!-- Rides Grid -->
-                <div id="ridesGrid" class="rides-grid">
-                    <!-- Rides will be dynamically inserted here by JavaScript -->
-                </div>
-
-                <!-- Empty State -->
-                <div id="emptyState" class="empty-state" style="display: none;">
-                    <div class="empty-icon">🚗</div>
-                    <p>No rides found</p>
-                    <small>Try adjusting your search or post a new ride</small>
-                </div>
-            </section>
-
+            </div>
         </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 StudentCircle. Built for a sustainable campus.</p>
-            <p>Share More. Waste Less. 🌱</p>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-seedling"></i> StudentCircle
+                </div>
+                <p>Building sustainable campus communities</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 StudentCircle. Share More. Waste Less.</p>
+            </div>
         </div>
     </footer>
 
